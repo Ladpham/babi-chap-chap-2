@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Babi Chap Chap – Accueil</title>
+  <link rel="icon" href="babi_chap_chap.png" type="image/png">
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f0f0;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    /* Countdown container */
+    .countdown-container {
+      margin: 50px auto;
+    }
+
+    /* Hide sections by default */
+    #memoryGame, #congratulations, #content {
+      display: none;
+    }
+
+    /* Memory Game Board */
+    .game-board {
+      display: grid;
+      grid-template-columns: repeat(5, 100px);
+      grid-gap: 10px;
+      justify-content: center;
+      margin: 20px auto;
+    }
+    .card {
+      width: 100px;
+      height: 100px;
+      background: url('card_back_black.png') no-repeat center center;
+      background-size: cover;
+      border: 1px solid #999;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .card img {
+      width: 100%;
+      height: 100%;
+      display: none;
+    }
+    .card.flipped {
+      background: #fff;
+    }
+    .card.flipped img {
+      display: block;
+    }
+
+    /* Congratulations animation */
+    #congratulations {
+      font-size: 2em;
+      animation: fadeInOut 3s forwards;
+      margin-top: 50px;
+    }
+    @keyframes fadeInOut {
+      0% { opacity: 0; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    /* Main content zone (fond blanc) */
+    #content {
+      background: #ffffff;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 30px 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+    #content h1, #content h2 {
+      text-align: center;
+    }
+    #accessForm {
+      margin-top: 20px;
+      text-align: center;
+    }
+    #accessForm input {
+      padding: 8px;
+      width: 80%;
+      max-width: 300px;
+      margin-bottom: 10px;
+    }
+    #accessForm button {
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+    #message {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    #secret {
+      margin-top: 30px;
+      border-top: 1px solid #ddd;
+      padding-top: 20px;
+    }
+
+    /* Responsive adjustments for smartphones */
+    @media (max-width: 600px) {
+      .game-board {
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 5px;
+        width: 90%;
+      }
+      .card {
+        width: 80px;
+        height: 80px;
+      }
+      #congratulations h1, #congratulations h2 {
+        font-size: 1.5em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Countdown -->
+  <div class="countdown-container">
+    <h1>Temps avant le dévoilement de votre premier indice pour le Babi Chap Chap :</h1>
+    <p>Revenez mercredi 3 décembre à 20h</p>
+    <p>On mijote un truc sympa, promis !</p>
+    <div class="timer" id="countdown"></div>
+  </div>
+
+  <!-- Memory Game -->
+  <div id="memoryGame">
+    <h2>Jeu de mémoire : retournez les masques baoulés similaires pour accéder à votre prochaine mission</h2>
+    <div class="game-board" id="gameBoard"></div>
+  </div>
+
+  <!-- Congratulations Animation -->
+  <div id="congratulations">
+    <h1>Félicitations !</h1>
+    <h2>Prêt·e pour votre prochaine étape ?</h2>
+  </div>
+
+  <!-- Main Content (fond blanc) -->
+  <div id="content">
+    <h1>Bienvenue sur le site des équipes Babi Chap Chap</h1>
+    <h2>Étape suivante : identifiez votre duo</h2>
+    <p style="text-align:center;">
+      Tape le nom de ton duo pour débloquer les infos secrètes de la mission.
+    </p>
+
+    <form id="accessForm">
+      <label for="code">Nom de votre duo :</label><br>
+      <input type="text" id="code" placeholder="Ex. Team MACA, Les ADP..." required>
+      <br>
+      <button type="submit">Accéder</button>
+    </form>
+    <div id="message"></div>
+
+    <!-- Zone secrète qui s’affiche si le duo est reconnu -->
+    <div id="secret" style="display:none;">
+      <h2>Votre mission Babi Chap Chap</h2>
+      <p>
+        📍 <strong>Adresse du rendez-vous</strong> : <em>[À compléter par Ladislas]</em><br>
+        🕒 L’heure exacte vous sera confirmée, mais prévoyez d’être flexible et mobile.
+      </p>
+      <p><strong>À apporter absolument :</strong></p>
+      <ul>
+        <li>📸 Un appareil photo (ou un téléphone bien chargé)</li>
+        <li>🎒 Un sac léger pour rester mobile toute la journée</li>
+        <li>🩱 Un maillot de bain</li>
+        <li>🪪 Une carte d’identité</li>
+      </ul>
+      <p>
+        Gardez ces informations pour vous et préparez-vous à une journée qui va secouer Abidjan. 😉
+      </p>
+    </div>
+  </div>
+
+  <!-- Si tu gardes un script.js externe -->
+  <script src="script.js"></script>
+
+  <script>
+    // ------------------------------
+    // 1) Countdown jusqu'au 3 déc.
+    // ------------------------------
+    const targetDate = new Date("December 3, 2025 20:00:00").getTime();
+
+    const countdownTimer = setInterval(() => {
+      const now = new Date().getTime();
+      const timeLeft = targetDate - now;
+
+      if (timeLeft > 0) {
+        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+        document.getElementById("countdown").textContent =
+          `${days}j ${hours}h ${minutes}m ${seconds}s`;
+      } else {
+        clearInterval(countdownTimer);
+        document.querySelector(".countdown-container").style.display = "none";
+        document.getElementById("memoryGame").style.display = "block";
+        initializeMemoryGame();
+      }
+    }, 1000);
+
+    // ------------------------------
+    // 2) Memory Game
+    // ------------------------------
+    let flippedCards = [];
+
+    function initializeMemoryGame() {
+      const images = [
+        'passeport1.jpeg',
+        'passeport2.jpg',
+        'passeport3.jpg',
+        'passeport4.jpeg',
+        'passeport5.jpeg'
+      ];
+      let deck = [];
+      images.forEach(image => {
+        deck.push(image);
+        deck.push(image);
+      });
+      deck = shuffle(deck);
+
+      const gameBoard = document.getElementById("gameBoard");
+      gameBoard.innerHTML = "";
+      deck.forEach((imgSrc, index) => {
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.dataset.image = imgSrc;
+        card.dataset.index = index;
+
+        const img = document.createElement("img");
+        img.src = imgSrc;
+        card.appendChild(img);
+        gameBoard.appendChild(card);
+      });
+
+      flippedCards = [];
+      const cards = document.querySelectorAll(".card");
+      cards.forEach(card => {
+        card.addEventListener("click", () => {
+          if (card.classList.contains("flipped") || flippedCards.length === 2) return;
+          card.classList.add("flipped");
+          flippedCards.push(card);
+
+          if (flippedCards.length === 2) {
+            checkForMatch();
+          }
+        });
+      });
+    }
+
+    function checkForMatch() {
+      const [card1, card2] = flippedCards;
+      if (card1.dataset.image === card2.dataset.image) {
+        flippedCards = [];
+        checkGameCompletion();
+      } else {
+        setTimeout(() => {
+          card1.classList.remove("flipped");
+          card2.classList.remove("flipped");
+          flippedCards = [];
+        }, 1000);
+      }
+    }
+
+    function checkGameCompletion() {
+      const allCards = document.querySelectorAll(".card");
+      const matchedCards = Array.from(allCards).filter(card => card.classList.contains("flipped"));
+      if (matchedCards.length === allCards.length) {
+        setTimeout(triggerCongratulations, 500);
+      }
+    }
+
+    function triggerCongratulations() {
+      document.getElementById("memoryGame").style.display = "none";
+      const congrats = document.getElementById("congratulations");
+      congrats.style.display = "block";
+
+      setTimeout(() => {
+        congrats.style.display = "none";
+        document.getElementById("content").style.display = "block";
+      }, 3000);
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // ------------------------------
+    // 3) Vérif du nom de duo
+    //    (ignore accents, majuscules, articles)
+    // ------------------------------
+    const TEAM_NAMES = [
+      "Team MACA",
+      "Les ADP",
+      "Le
