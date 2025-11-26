@@ -127,7 +127,10 @@
 <body>
   <!-- Countdown -->
   <div class="countdown-container">
-    <h1>Temps avant le dévoilement de votre premier indice pour le Babi Chap Chap :</h1>
+    <h1>
+      Félicitations d'avoir trouvé cet indice crucial pour bien commencer votre Babi Chap Chap.<br>
+      Hélas, il va encore falloir attendre…
+    </h1>
     <p>Revenez mercredi 3 décembre à 20h</p>
     <p>On mijote un truc sympa, promis !</p>
     <div class="timer" id="countdown"></div>
@@ -306,4 +309,111 @@
     const TEAM_NAMES = [
       "Team MACA",
       "Les ADP",
-      "Le
+      "Les Babi spies",
+      "Les CôtaKot",
+      "Lobilogi",
+      "Cocoduo",
+      "LE STRESS",
+      "Les Titans",
+      "Chicken wings",
+      "Surprise",
+      "le Z et le B c'est le S",
+      "Les performatifs",
+      "Tekno Tropik",
+      "Apé & Sonic",
+      "Alpha"
+    ];
+
+    function normalizeName(str) {
+      if (!str) return "";
+      let s = str.toLowerCase();
+
+      // enlever accents
+      s = s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+      // uniformiser apostrophes
+      s = s.replace(/['’]/g, " ");
+
+      // découper en mots et enlever les articles / mots peu discriminants
+      const stopWords = ["team","les","le","la","l","des","du","de"];
+      let words = s.split(/\s+/).filter(Boolean);
+      words = words.filter(w => !stopWords.includes(w));
+
+      // enlever tout ce qui n'est pas alphanumérique
+      words = words.map(w => w.replace(/[^a-z0-9]/g, ""));
+
+      return words.join("");
+    }
+
+    const NORMALIZED_TEAMS = TEAM_NAMES.map(normalizeName);
+
+    const form = document.getElementById("accessForm");
+    const messageDiv = document.getElementById("message");
+    const secretDiv = document.getElementById("secret");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const value = document.getElementById("code").value;
+  const normalizedInput = normalizeName(value);
+
+  const index = NORMALIZED_TEAMS.indexOf(normalizedInput);
+
+  if (index !== -1) {
+    // 1) Enregistrer le premier timestamp pour ce duo
+    const iso = saveFirstTimestampForDuo(normalizedInput);
+    const dateObj = new Date(iso);
+    const formatted = dateObj.toLocaleString("fr-FR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
+    // 2) Feedback + affichage des infos + décompte
+    messageDiv.style.color = "green";
+    messageDiv.innerHTML = `
+      Duo reconnu : <strong>${TEAM_NAMES[index]}</strong> 🎉<br>
+      <small>Première inscription enregistrée le ${formatted}</small>
+    `;
+    secretDiv.style.display = "block";
+
+    // Si tu veux "enchaîner" visuellement avec le décompte, tu peux t'assurer
+    // que le bloc du compte à rebours reste visible ou le remontrer ici :
+    // document.querySelector(".countdown-container").style.display = "block";
+
+  } else {
+    messageDiv.style.color = "red";
+    messageDiv.textContent =
+      "Nom de duo non reconnu. Vérifie l'orthographe (sans stress sur accents/majuscules) ou demande à ton/ta partenaire.";
+    secretDiv.style.display = "none";
+  }
+});
+
+    // ------------------------------
+// 4) Enregistrement du premier timestamp par duo (localStorage)
+// ------------------------------
+const DUO_TIMESTAMPS_KEY = "babiChapChapDuoTimestamps";
+
+function getDuoTimestamps() {
+  try {
+    const raw = localStorage.getItem(DUO_TIMESTAMPS_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function saveFirstTimestampForDuo(normalizedKey) {
+  const map = getDuoTimestamps();
+  // On n'écrase pas si déjà enregistré
+  if (!map[normalizedKey]) {
+    map[normalizedKey] = new Date().toISOString();
+    localStorage.setItem(DUO_TIMESTAMPS_KEY, JSON.stringify(map));
+  }
+  return map[normalizedKey];
+}
+
+  </script>
+</body>
+</html>
