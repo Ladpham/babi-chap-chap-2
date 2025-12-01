@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Babi Chap Chap – Accueil</title>
   <link rel="icon" href="babi_chap_chap.png" type="image/png">
+
   <style>
     body {
       font-family: sans-serif;
@@ -101,30 +102,69 @@
       text-align: center;
       font-size: 0.9rem;
     }
-    #secret {
-      margin-top: 30px;
-      border-top: 1px solid #ddd;
-      padding-top: 20px;
+
+    /* ------------- MODE DUO (PAGE INVITATION) ---------------- */
+    body.duo-mode {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-image: url('equipe_blanche.jpg');
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      color: black;
     }
 
-    /* Responsive adjustments for smartphones */
-    @media (max-width: 600px) {
-      .game-board {
-        grid-template-columns: repeat(3, 1fr);
-        grid-gap: 5px;
-        width: 90%;
-      }
-      .card {
-        width: 80px;
-        height: 80px;
-      }
-      #congratulations h1, #congratulations h2 {
-        font-size: 1.5em;
-      }
+    .duo-container {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
+
+    .duo-text-content {
+      text-align: left;
+      flex: 2;
+    }
+
+    .duo-logo {
+      flex: 1;
+      max-width: 150px;
+      margin-left: 20px;
+    }
+
+    .duo-logo img {
+      width: 100%;
+      border-radius: 50%;
+    }
+
+    .duo-container h1 {
+      font-size: 2.5em;
+      margin: 0;
+    }
+
+    .duo-container p {
+      font-size: 1.2em;
+      margin: 10px 0;
+    }
+
+    .duo-container a {
+      color: #0000EE;
+      text-decoration: underline;
+    }
+
   </style>
 </head>
 <body>
+
   <!-- Countdown -->
   <div class="countdown-container">
     <h1>
@@ -148,7 +188,7 @@
     <h2>Prêt·e pour votre prochaine étape ?</h2>
   </div>
 
-  <!-- Main Content (fond blanc) -->
+  <!-- Main Content (formulaire duo) -->
   <div id="content">
     <h1>Bienvenue sur le site des équipes Babi Chap Chap</h1>
     <h2>Étape suivante : identifiez votre duo</h2>
@@ -163,34 +203,14 @@
       <button type="submit">Accéder</button>
     </form>
     <div id="message"></div>
-
-    <!-- Zone secrète qui s’affiche si le duo est reconnu -->
-    <div id="secret" style="display:none;">
-      <h2>Votre mission Babi Chap Chap</h2>
-      <p>
-        📍 <strong>Adresse du rendez-vous</strong> : <em>[À compléter par Ladislas]</em><br>
-        🕒 L’heure exacte vous sera confirmée, mais prévoyez d’être flexible et mobile.
-      </p>
-      <p><strong>À apporter absolument :</strong></p>
-      <ul>
-        <li>📸 Un appareil photo (ou un téléphone bien chargé)</li>
-        <li>🎒 Un sac léger pour rester mobile toute la journée</li>
-        <li>🩱 Un maillot de bain</li>
-        <li>🪪 Une carte d’identité</li>
-      </ul>
-      <p>
-        Gardez ces informations pour vous et préparez-vous à une journée qui va secouer Abidjan. 😉
-      </p>
-    </div>
   </div>
 
-  <!-- Si tu gardes un script.js externe -->
-  <script src="script.js"></script>
 
   <script>
-    // ------------------------------
-    // 1) Countdown jusqu'au 3 déc.
-    // ------------------------------
+
+    /* ---------------------------------------------
+       1) COUNTDOWN jusqu'au 3 décembre
+    ----------------------------------------------*/
     const targetDate = new Date("December 3, 2025 20:00:00").getTime();
 
     const countdownTimer = setInterval(() => {
@@ -202,8 +222,10 @@
         const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
         document.getElementById("countdown").textContent =
           `${days}j ${hours}h ${minutes}m ${seconds}s`;
+
       } else {
         clearInterval(countdownTimer);
         document.querySelector(".countdown-container").style.display = "none";
@@ -212,9 +234,11 @@
       }
     }, 1000);
 
-    // ------------------------------
-    // 2) Memory Game
-    // ------------------------------
+
+
+    /* ---------------------------------------------
+       2) MEMORY GAME
+    ----------------------------------------------*/
     let flippedCards = [];
 
     function initializeMemoryGame() {
@@ -226,59 +250,54 @@
         'passeport5.jpeg'
       ];
       let deck = [];
-      images.forEach(image => {
-        deck.push(image);
-        deck.push(image);
-      });
+      images.forEach(img => { deck.push(img); deck.push(img); });
       deck = shuffle(deck);
 
-      const gameBoard = document.getElementById("gameBoard");
-      gameBoard.innerHTML = "";
+      const board = document.getElementById("gameBoard");
+      board.innerHTML = "";
+
       deck.forEach((imgSrc, index) => {
         const card = document.createElement("div");
         card.classList.add("card");
         card.dataset.image = imgSrc;
-        card.dataset.index = index;
 
         const img = document.createElement("img");
         img.src = imgSrc;
         card.appendChild(img);
-        gameBoard.appendChild(card);
-      });
 
-      flippedCards = [];
-      const cards = document.querySelectorAll(".card");
-      cards.forEach(card => {
+        board.appendChild(card);
+
         card.addEventListener("click", () => {
           if (card.classList.contains("flipped") || flippedCards.length === 2) return;
+
           card.classList.add("flipped");
           flippedCards.push(card);
 
-          if (flippedCards.length === 2) {
-            checkForMatch();
-          }
+          if (flippedCards.length === 2) checkMatch();
         });
       });
     }
 
-    function checkForMatch() {
-      const [card1, card2] = flippedCards;
-      if (card1.dataset.image === card2.dataset.image) {
+    function checkMatch() {
+      const [c1, c2] = flippedCards;
+
+      if (c1.dataset.image === c2.dataset.image) {
         flippedCards = [];
         checkGameCompletion();
       } else {
         setTimeout(() => {
-          card1.classList.remove("flipped");
-          card2.classList.remove("flipped");
+          c1.classList.remove("flipped");
+          c2.classList.remove("flipped");
           flippedCards = [];
         }, 1000);
       }
     }
 
     function checkGameCompletion() {
-      const allCards = document.querySelectorAll(".card");
-      const matchedCards = Array.from(allCards).filter(card => card.classList.contains("flipped"));
-      if (matchedCards.length === allCards.length) {
+      const all = document.querySelectorAll(".card");
+      const matched = Array.from(all).filter(c => c.classList.contains("flipped"));
+
+      if (matched.length === all.length) {
         setTimeout(triggerCongratulations, 500);
       }
     }
@@ -302,10 +321,12 @@
       return array;
     }
 
-    // ------------------------------
-    // 3) Vérif du nom de duo
-    //    (ignore accents, majuscules, articles)
-    // ------------------------------
+
+
+    /* ---------------------------------------------
+       3) DUOS – normalisation & accès
+    ----------------------------------------------*/
+
     const TEAM_NAMES = [
       "Team MACA",
       "Les ADP",
@@ -327,21 +348,11 @@
     function normalizeName(str) {
       if (!str) return "";
       let s = str.toLowerCase();
-
-      // enlever accents
       s = s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-
-      // uniformiser apostrophes
       s = s.replace(/['’]/g, " ");
-
-      // découper en mots et enlever les articles / mots peu discriminants
       const stopWords = ["team","les","le","la","l","des","du","de"];
-      let words = s.split(/\s+/).filter(Boolean);
-      words = words.filter(w => !stopWords.includes(w));
-
-      // enlever tout ce qui n'est pas alphanumérique
+      let words = s.split(/\s+/).filter(w => w && !stopWords.includes(w));
       words = words.map(w => w.replace(/[^a-z0-9]/g, ""));
-
       return words.join("");
     }
 
@@ -349,71 +360,68 @@
 
     const form = document.getElementById("accessForm");
     const messageDiv = document.getElementById("message");
-    const secretDiv = document.getElementById("secret");
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const value = document.getElementById("code").value;
-  const normalizedInput = normalizeName(value);
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const input = document.getElementById("code").value;
+      const normalized = normalizeName(input);
 
-  const index = NORMALIZED_TEAMS.indexOf(normalizedInput);
+      const index = NORMALIZED_TEAMS.indexOf(normalized);
 
-  if (index !== -1) {
-    // 1) Enregistrer le premier timestamp pour ce duo
-    const iso = saveFirstTimestampForDuo(normalizedInput);
-    const dateObj = new Date(iso);
-    const formatted = dateObj.toLocaleString("fr-FR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit"
+      if (index !== -1) {
+
+        /* 🟢 1) On efface TOUT l’ancien contenu */
+        document.querySelector(".countdown-container").style.display = "none";
+        document.getElementById("memoryGame").style.display = "none";
+        document.getElementById("congratulations").style.display = "none";
+        document.getElementById("content").style.display = "none";
+
+        /* 🟢 2) On passe en mode DUO */
+        document.body.classList.add("duo-mode");
+
+        /* 🟢 3) On construit l'affiche */
+        const duoName = TEAM_NAMES[index];
+
+        const duoDiv = document.createElement("div");
+        duoDiv.className = "duo-container";
+
+        duoDiv.innerHTML = `
+          <div class="duo-text-content">
+            <h1>Bienvenue à vous !</h1>
+            <p><strong>Duo :</strong> ${duoName}</p>
+            <p>Comme d'hab, les instructions sont simples :</p>
+            <p>Rendez-vous : <strong>19h15 (grand max on est ensmeble sur un timing 19h pour etre bien)</strong></p>
+            <p>
+              Au :
+              <strong>
+                <a href="https://maps.app.goo.gl/wrhrvgUjPnKBPT1JA" target="_blank">
+                  Palais d'Afrique Officiel
+                </a>
+              </strong>
+            </p>
+            <p>Venez avec vos affaires du week end,</p>
+            <p>Un sac leger (transportable facilement) pour 2 nuits, votre appareil photo</p>
+            <p>Maillot, serviette</p>
+            <p>Crème solaire, casquette</p>
+            <p>Un kway, qui sait?</p>
+            <p>Un sourire</p>
+            <p>C'est tout!</p>
+          </div>
+          <div class="duo-logo">
+            <img src="babi_chap_chap.png" alt="Logo BCC">
+          </div>
+        `;
+
+        document.body.appendChild(duoDiv);
+
+      } else {
+        messageDiv.style.color = "red";
+        messageDiv.textContent =
+          "Nom de duo non reconnu. Vérifie l'orthographe ou demande à ton/ta partenaire.";
+      }
     });
 
-    // 2) Feedback + affichage des infos + décompte
-    messageDiv.style.color = "green";
-    messageDiv.innerHTML = `
-      Duo reconnu : <strong>${TEAM_NAMES[index]}</strong> 🎉<br>
-      <small>Première inscription enregistrée le ${formatted}</small>
-    `;
-    secretDiv.style.display = "block";
-
-    // Si tu veux "enchaîner" visuellement avec le décompte, tu peux t'assurer
-    // que le bloc du compte à rebours reste visible ou le remontrer ici :
-    // document.querySelector(".countdown-container").style.display = "block";
-
-  } else {
-    messageDiv.style.color = "red";
-    messageDiv.textContent =
-      "Nom de duo non reconnu. Vérifie l'orthographe (sans stress sur accents/majuscules) ou demande à ton/ta partenaire.";
-    secretDiv.style.display = "none";
-  }
-});
-
-    // ------------------------------
-// 4) Enregistrement du premier timestamp par duo (localStorage)
-// ------------------------------
-const DUO_TIMESTAMPS_KEY = "babiChapChapDuoTimestamps";
-
-function getDuoTimestamps() {
-  try {
-    const raw = localStorage.getItem(DUO_TIMESTAMPS_KEY);
-    return raw ? JSON.parse(raw) : {};
-  } catch (e) {
-    return {};
-  }
-}
-
-function saveFirstTimestampForDuo(normalizedKey) {
-  const map = getDuoTimestamps();
-  // On n'écrase pas si déjà enregistré
-  if (!map[normalizedKey]) {
-    map[normalizedKey] = new Date().toISOString();
-    localStorage.setItem(DUO_TIMESTAMPS_KEY, JSON.stringify(map));
-  }
-  return map[normalizedKey];
-}
-
   </script>
+
 </body>
 </html>
