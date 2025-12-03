@@ -208,31 +208,31 @@
 
   <script>
 
-    /* ---------------------------------------------
-       1) COUNTDOWN jusqu'au 3 décembre
-    ----------------------------------------------*/
-    const targetDate = new Date("December 3, 2025 20:00:00").getTime();
+    // /* ---------------------------------------------
+    //    1) COUNTDOWN jusqu'au 3 décembre
+    // ----------------------------------------------*/
+    // const targetDate = new Date("December 3, 2025 20:00:00").getTime();
 
-    const countdownTimer = setInterval(() => {
-      const now = new Date().getTime();
-      const timeLeft = targetDate - now;
+    // const countdownTimer = setInterval(() => {
+    //   const now = new Date().getTime();
+    //   const timeLeft = targetDate - now;
 
-      if (timeLeft > 0) {
-        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+    //   if (timeLeft > 0) {
+    //     const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+    //     const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    //     const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    //     const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-        document.getElementById("countdown").textContent =
-          `${days}j ${hours}h ${minutes}m ${seconds}s`;
+    //     document.getElementById("countdown").textContent =
+    //       `${days}j ${hours}h ${minutes}m ${seconds}s`;
 
-      } else {
-        clearInterval(countdownTimer);
-        document.querySelector(".countdown-container").style.display = "none";
-        document.getElementById("memoryGame").style.display = "block";
-        initializeMemoryGame();
-      }
-    }, 1000);
+    //   } else {
+    //     clearInterval(countdownTimer);
+    //     document.querySelector(".countdown-container").style.display = "none";
+    //     document.getElementById("memoryGame").style.display = "block";
+    //     initializeMemoryGame();
+    //   }
+    // }, 1000);
 
 
 
