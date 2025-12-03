@@ -234,7 +234,10 @@
     //   }
     // }, 1000);
 
-
+    // Sans timer : on cache le bloc countdown et on lance directement le jeu
+    document.querySelector(".countdown-container").style.display = "none";
+    document.getElementById("memoryGame").style.display = "block";
+    initializeMemoryGame();
 
     /* ---------------------------------------------
        2) MEMORY GAME
