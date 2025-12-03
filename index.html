@@ -208,36 +208,36 @@
 
   <script>
 
-    // /* ---------------------------------------------
-    //    1) COUNTDOWN jusqu'au 3 décembre
-    // ----------------------------------------------*/
-    // const targetDate = new Date("December 3, 2025 20:00:00").getTime();
+    /* ---------------------------------------------
+       1) COUNTDOWN jusqu'au 3 décembre
+    ----------------------------------------------*/
+    const targetDate = new Date("December 3, 2025 20:00:00").getTime();
 
-    // const countdownTimer = setInterval(() => {
-    //   const now = new Date().getTime();
-    //   const timeLeft = targetDate - now;
+    const countdownTimer = setInterval(() => {
+      const now = new Date().getTime();
+      const timeLeft = targetDate - now;
 
-    //   if (timeLeft > 0) {
-    //     const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-    //     const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    //     const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-    //     const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+      if (timeLeft > 0) {
+        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-    //     document.getElementById("countdown").textContent =
-    //       `${days}j ${hours}h ${minutes}m ${seconds}s`;
+        document.getElementById("countdown").textContent =
+          `${days}j ${hours}h ${minutes}m ${seconds}s`;
 
-    //   } else {
-    //     clearInterval(countdownTimer);
-    //     document.querySelector(".countdown-container").style.display = "none";
-    //     document.getElementById("memoryGame").style.display = "block";
-    //     initializeMemoryGame();
-    //   }
-    // }, 1000);
+      } else {
+        clearInterval(countdownTimer);
+        document.querySelector(".countdown-container").style.display = "none";
+        document.getElementById("memoryGame").style.display = "block";
+        initializeMemoryGame();
+      }
+    }, 1000);
 
-    // Sans timer : on cache le bloc countdown et on lance directement le jeu
-    document.querySelector(".countdown-container").style.display = "none";
-    document.getElementById("memoryGame").style.display = "block";
-    initializeMemoryGame();
+    // // Sans timer : on cache le bloc countdown et on lance directement le jeu
+    // document.querySelector(".countdown-container").style.display = "none";
+    // document.getElementById("memoryGame").style.display = "block";
+    // initializeMemoryGame();
 
     /* ---------------------------------------------
        2) MEMORY GAME
@@ -391,7 +391,7 @@
         duoDiv.innerHTML = `
           <div class="duo-text-content">
             <h1>Bravo Team ${duoName} !</h1>
-            <p>Vous avez percé l’indice, vous voilà au bon endroit.</p>
+            <p>Beau selfie! vous voilà maintenant au bon endroit, la salle d'attente, avant le grand Week End!.</p>
         
             <p><strong>Rendez-vous : 19h00 pétantes</strong></p>
             <p>(zéro retard, on avance ensemble)</p>
@@ -409,12 +409,12 @@
             <p>🚕 Oubliez la voiture → privilégiez un Yango à plusieurs.</p>
         
             <p><strong>💰 Paiement :</strong></p>
-            <p>Le week-end est à <strong>70 000 FCFA</strong>.</p>
+            <p>Le week-end (logement, transport, nourriture) est à <strong>70 000 FCFA</strong>.</p>
             <p>Acompte reçu : <strong>20 000 FCFA</strong> → reste <strong>50 000 FCFA</strong> à régler.</p>
             <p>Vous connaissez le numéro 😉</p>
         
             <p><strong>🎒 Votre kit week-end :</strong></p>
-            <p>• Sac léger pour 2 nuits</p>
+            <p>• Sac léger pour 2 nuits avec ID</p>
             <p>• Appareil photo</p>
             <p>• Maillot + serviette</p>
             <p>• Crème solaire + casquette</p>
